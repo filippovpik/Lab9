@@ -7,13 +7,13 @@
             var acc1 = new BankAccount();
 
             Console.WriteLine($"Номер счета:{acc1.AccountNumber}");
-            Console.WriteLine(acc1.Balance);
+            Console.WriteLine($"Текущий баланс:{acc1.Balance}");
 
             acc1.Deposit();
-            Console.WriteLine(acc1.Balance);
+            Console.WriteLine($"Текущий баланс:{acc1.Balance}");
 
             acc1.Withdraw();
-            Console.WriteLine(acc1.Balance);
+            Console.WriteLine($"Текущий баланс:{acc1.Balance}");
 
             var acc2 = new BankAccount();
 
@@ -25,6 +25,7 @@
         class BankAccount
         {
             Random rnd = new Random();
+            decimal instantAmount = 0;
 
             // Поля
             private decimal _balance = 0;
@@ -55,7 +56,7 @@
             public void Deposit()
             {
                 Console.WriteLine("Введите сумму для пополнения баланса");
-                decimal instantAmount = Convert.ToDecimal(Console.ReadLine());
+                instantAmount = Convert.ToDecimal(Console.ReadLine());
                 _balance = _balance + instantAmount;
                 Balance = _balance;
             }
@@ -66,18 +67,22 @@
                 try
                 {
                     Console.WriteLine("Введите сумму для снятия");
-                    decimal instantAmount = Convert.ToDecimal(Console.ReadLine());
+                    instantAmount = Convert.ToDecimal(Console.ReadLine());
                     _balance = _balance - instantAmount;
-                    if (_balance < 0)
-                    {
-                        _balance = _balance + instantAmount;
-                    }
                     Balance = _balance;
 
                 }
                 catch (ArgumentException)
                 {
                     Console.WriteLine("Недостаточно средств");
+                }
+                finally
+                {
+                    if (_balance < 0)
+                    {
+                        _balance = _balance + instantAmount;
+                    }
+                    Balance = _balance;
                 }
             }
 
