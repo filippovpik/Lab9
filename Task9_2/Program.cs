@@ -12,8 +12,16 @@
             acc1.Deposit();
             Console.WriteLine($"Текущий баланс:{acc1.Balance}");
 
-            acc1.Withdraw();
-            Console.WriteLine($"Текущий баланс:{acc1.Balance}");
+            try
+            {
+                acc1.Withdraw();
+                Console.WriteLine($"Текущий баланс:{acc1.Balance}");
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine("Недостаточно средств");
+                Console.WriteLine($"Текущий баланс:{acc1.Balance}");
+            }
 
             var acc2 = new BankAccount();
 
@@ -42,6 +50,7 @@
                 {
                     if (value < 0)
                         throw new ArgumentException("Баланс не может быть отрицательным");
+                    _balance = value;
                 }
             }
 
@@ -57,33 +66,15 @@
             {
                 Console.WriteLine("Введите сумму для пополнения баланса");
                 instantAmount = Convert.ToDecimal(Console.ReadLine());
-                _balance = _balance + instantAmount;
-                Balance = _balance;
+                Balance = Balance + instantAmount;
             }
 
             // Метод– снимает деньги
             public void Withdraw()
             {
-                try
-                {
                     Console.WriteLine("Введите сумму для снятия");
                     instantAmount = Convert.ToDecimal(Console.ReadLine());
-                    _balance = _balance - instantAmount;
-                    Balance = _balance;
-
-                }
-                catch (ArgumentException)
-                {
-                    Console.WriteLine("Недостаточно средств");
-                }
-                finally
-                {
-                    if (_balance < 0)
-                    {
-                        _balance = _balance + instantAmount;
-                    }
-                    Balance = _balance;
-                }
+                    Balance = Balance - instantAmount;
             }
 
             // Метод– показывает текущее количество счетов
